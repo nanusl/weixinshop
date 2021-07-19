@@ -1,0 +1,99 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+    include-stacktrace: always
+    include-message: always
+  port: @server.port@
+  servlet:
+    context-path: @context-path@
+
+spring:
+  application:
+    name: WeixinShop
+  profiles:
+    active: @build.profile.id@
+  datasource:
+    url: @db.url@
+    username: @db.user@
+    password: @db.password@
+    schema: classpath:db/schema-mysql.sql
+    data: classpath:db/data-mysql.sql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      max-wait: 30000
+      query-timeout: 10
+      validation-query: SELECT 1
+      use-global-data-source-stat: true
+      # 默认开启，当前已开启
+      stat:
+        log-slow-sql: true
+        slow-sql-millis: 1000
+      # 默认关闭，需手动开启，当前已开启
+      slf4j:
+        enabled: true
+        data-source-log-enabled: false
+        connection-log-enabled: false
+        statement-log-enabled: false
+        result-set-log-enabled: false
+      # 默认关闭，需手动开启，当前已开启
+      wall:
+        enabled: true
+        log-violation: true
+        throw-exception: false
+        config:
+          delete-where-none-check: true
+      # 默认关闭，需手动开启，当前已关闭
+      config:
+        enabled: false
+      # 默认关闭，需手动开启，当前已关闭
+      web-stat:
+        enabled: false
+      # 默认关闭，需手动开启，当前已关闭
+      aop-stat:
+        enabled: false
+      # 默认关闭，需手动开启，当前已关闭
+      stat-view-servlet:
+        enabled: false
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: @redis.host@
+    password: @redis.password@
+    port: @redis.port@
+  transaction:
+    rollback-on-commit-failure: true
+  mvc:
+    servlet:
+      load-on-startup: 1
+  aop:
+    auto: true
+    proxy-target-class: true
+  thymeleaf:
+    cache: false
+  devtools:
+    restart:
+      enabled: @restart.enabled@
+    livereload:
+      enabled: @livereload.enabled@
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      indent_output: true
+      write_null_map_values: true
+      write_dates_as_timestamps: false
+    deserialization:
+      fail_on_unknown_properties: false
+    parser:
+      allow_unquoted_control_chars: true
+      allow_single_quotes: true
+
+mybatis-plus:
+  type-aliases-package: cn.dayutang.entity
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+    log-impl: @mybatis-plus.log.impl@
+    log-prefix: executableSql.

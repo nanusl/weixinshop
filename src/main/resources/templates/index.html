@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <title>确认登录</title>
+    <link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/1.1.3/weui.min.css">
+    <script src="https://s2.pstatp.com/cdn/expire-1-M/jquery/3.4.0/jquery.min.js" type="application/javascript"></script>
+    <script th:inline="javascript">
+        const key = [[${key}]];
+        const uin = [[${uin}]];
+        const uuid = [[${uuid}]];
+        const ticket = [[${pass_ticket}]];
+    </script>
+    <style>
+        .auth_avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px
+        }
+
+        .auth_nickname {
+            display: block;
+            margin-top: -.2em;
+            font-weight: 400;
+            font-size: 20px
+        }
+
+        .auth_msg {
+            text-align: center;
+            padding: 2.7em 30px 0
+        }
+
+        .auth_msg_hd {
+            font-size: 20px;
+            padding-bottom: 1.4em;
+            margin-bottom: 1.4em;
+            position: relative
+        }
+
+        .auth_msg_hd:after {
+            content: " ";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 1px;
+            border-bottom: 1px solid #D8D8D8;
+            -webkit-transform-origin: 0 100%;
+            transform-origin: 0 100%;
+            -webkit-transform: scaleY(.5);
+            transform: scaleY(.5)
+        }
+
+        .auth_msg_bd {
+            font-size: 14px;
+            text-align: left
+        }
+
+        .auth_msg_ft {
+            margin-top: 2.5em
+        }
+
+        .auth_rights_tips {
+            font-size: 16px;
+            padding-bottom: .4em;
+            color: #000
+        }
+
+        .auth_rights_list {
+            color: #888
+        }
+
+        .auth_rights_item {
+            margin: .34em 0;
+            list-style: none
+        }
+
+        .auth_rights_lbl {
+            overflow: hidden
+        }
+
+        .btn_auth_msg_link {
+            display: inline-block;
+            font-size: 14px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            margin-top: .65em;
+            border: none;
+            background: 0 0;
+            color: #4088FF
+        }
+
+        .logo_weixin {
+            width: 81px;
+            height: 81px;
+            margin: 0 auto 28px;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAACiCAMAAAD1LOYpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA1tpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0iM0RDNDJDMDZGN0E1NkIyMkFCRDBFRDE3MjkzNjZCQjAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUZBQkI0NEIxNjYzMTFFNDg1M0NENjhDREIxRjNCNTIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUZBQkI0NEExNjYzMTFFNDg1M0NENjhDREIxRjNCNTIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6ZTM0MmQ4ZDctZTg0MC00MjQzLThiMDItMzNiZGRhOWZiMDJkIiBzdFJlZjpkb2N1bWVudElEPSIzREM0MkMwNkY3QTU2QjIyQUJEMEVEMTcyOTM2NkJCMCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PltuSwcAAAJPUExURQAAANXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1T/bs9UAAADFdFJOUwABAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fICEiIyQlJicoKSorLC0uMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWWFlaW1xdXl9hYmNkZmdoaWprbG1ucHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKUlZaXmJqbnJ2en6ChoqOkpaanqKmqq6yur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMp/nq7wAABx9JREFUGBntwY9flPUBB/DPHXDATWiKUaGwwpYDFad5bWeipfkDxeZpbJRY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) center no-repeat;
+            background-size: 81px;
+            -webkit-background-size: 81px
+        }
+
+        .logging {
+            text-align: center;
+            font-size: .8em;
+            color: #000;
+            margin-bottom: 10px
+        }
+
+        .icon_checkbox_default {
+            float: left;
+            margin-right: .7em;
+            margin-top: .26em;
+            position: relative;
+            border: 1px solid #D1D1D1;
+            background-color: #FFF;
+            border-radius: 3px;
+            width: 13px;
+            height: 13px
+        }
+
+        .icon_checkbox_default.checked:before {
+            font-family: weui;
+            font-style: normal;
+            font-weight: 400;
+            font-variant: normal;
+            text-transform: none;
+            text-align: center;
+            speak: none;
+            display: inline-block;
+            vertical-align: middle;
+            text-decoration: inherit;
+            content: "\EA08";
+            color: #09BB07;
+            font-size: 13px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -48%) scale(.73);
+            -webkit-transform: translate(-50%, -48%) scale(.73)
+        }
+
+        .icon_checkbox_default.disabled {
+            border-color: transparent;
+            background-color: transparent
+        }
+
+        .icon_checkbox_default.disabled:before {
+            display: none
+        }
+
+        .icon_checkbox_default.disabled:after {
+            content: " ";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -2px;
+            margin-top: -2px;
+            width: 4px;
+            height: 4px;
+            background-color: #888;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%
+        }
+    </style>
+</head>
+<body>
+<div class="auth_msg confirm confirm_list_black">
+    <div class="auth_msg_hd">
+        <img src="https://thirdwx.qlogo.cn/mmopen/vi_32/ajNVdqHZLLCHCzHUvcY78n2GFFcPfHTtRFz0vleOeUfSZlBThME4syCg9YmzLb0qhDbSKWLvUCEnFETicibUt1xA/132"
+             class="auth_avatar app_icon">
+        <strong class="auth_nickname" th:text="${name}">name</strong>
+    </div>
+    <div class="auth_msg_bd">
+        <p class="auth_rights_tips" th:text="'即将登录'+${applicationName}+'，请确认是本人操作'"></p>
+        <ul class="auth_rights_list">
+            <li class="auth_rights_item">
+                <i class="icon_checkbox_default disabled"></i>
+                <input type="hidden" name="snsapi_login" value="on">
+                <span class="auth_rights_lbl" th:text="${authorities}"></span>
+            </li>
+        </ul>
+    </div>
+    <div class="auth_msg_ft">
+        <button class="weui-btn weui-btn_primary" id="allow" onclick="doConfirmCall(this)">确认登录</button>
+        <button class="weui-btn weui-btn_default" id="cancel" onclick="doConfirmCall(this)">取消</button>
+    </div>
+</div>
+<div id="loadingToast" style="display:none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">loading...</p>
+    </div>
+</div>
+<div id="toast" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+        <p class="weui-toast__content">授权成功!</p>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    const $toast = $('#toast');
+    const $loadingToast = $('#loadingToast');
+
+    $(function () {
+        if ("object" == typeof WeixinJSBridge) {
+            onBridgeReady();
+        } else {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        }
+    });
+
+    function onBridgeReady() {
+        WeixinJSBridge.call("hideOptionMenu");
+        WeixinJSBridge.call("hideToolbar");
+    }
+
+    function showToast(toast) {
+        if (toast.css('display') === 'none') {
+            toast.fadeIn(100);
+            setTimeout(function () {
+                toast.fadeOut(100);
+            }, 10000)
+        }
+    }
+
+    function closeToast(toast) {
+        toast.fadeOut(100);
+    }
+
+    function doConfirmCall(self) {
+        showToast($loadingToast);
+        $.ajax({
+            type: 'POST',
+            dataType: "json",
+            url: "/auth/qrauth/" + uuid,
+            data: {
+                confirm: self.id
+            },
+            success: function (result) {
+                closeToast($loadingToast);
+                if (result.code === 200) {
+                    showToast($toast);
+                }
+                setTimeout(function () {
+                    onCloseWindow();
+                }, 1000)
+            },
+            error: function (e) {
+                console.error(e);
+                alert("error :" + JSON.stringify(e));
+            }
+        })
+    }
+
+    function onCloseWindow() {
+        "object" == typeof WeixinJSBridge ? WeixinJSBridge.invoke("closeWindow") : location = "weixin://jump/mainframe";
+    }
+</script>
+</html>
