@@ -91,7 +91,7 @@ spring:
       allow_single_quotes: true
 
 mybatis-plus:
-  type-aliases-package: cn.dayutang.entity
+  type-aliases-package: com.github.entity
   configuration:
     cache-enabled: false
     map-underscore-to-camel-case: true

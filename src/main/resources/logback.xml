@@ -49,7 +49,7 @@
         </triggeringPolicy>
     </appender>
 
-    <logger name="cn.dayutang" level="${LOG_ROOT_LEVEL}"/>
+    <logger name="com.github" level="${LOG_ROOT_LEVEL}"/>
     <logger name="com.baomidou.mybatisplus" level="${LOG_ROOT_LEVEL}"/>
     <logger name="org.springframework.security" level="debug"/>
 

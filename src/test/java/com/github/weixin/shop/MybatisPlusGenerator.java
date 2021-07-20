@@ -70,7 +70,7 @@ public class MybatisPlusGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         // pc.setModuleName(scanner("模块名"));
-        pc.setParent("cn.dayutang");
+        pc.setParent("com.github");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
