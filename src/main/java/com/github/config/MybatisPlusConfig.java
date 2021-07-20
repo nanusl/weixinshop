@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021-02-03 18:57
  */
 @Configuration
-@MapperScan("cn.dayutang.mapper")
+@MapperScan("com.github.mapper")
 public class MybatisPlusConfig {
 
     @Bean

@@ -15,8 +15,6 @@ public class Users extends BaseModel{
 
     private static final long serialVersionUID = -4798000218050277672L;
 
-    private Long id;
-
     private String displayName;
 
 }

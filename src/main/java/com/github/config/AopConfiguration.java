@@ -21,7 +21,7 @@ public class AopConfiguration {
     /*@Bean
     public Advisor traceAdvisor(ApplicationEventPublisher eventPublisher) {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression("execution(public * com.jfona.sifh.controller.*.*(..)) && !@annotation(com.jfona.sifh.trace.ClearTrace)");
+        pointcut.setExpression("execution(public * com.github.controller.*.*(..)) && !@annotation(com.github.trace.ClearTrace)");
         return new DefaultPointcutAdvisor(pointcut, new TraceInterceptor(eventPublisher));
     }*/
 
