@@ -60,11 +60,11 @@ public class MybatisPlusGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://192.168.2.209:3306/FishPond_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql:///db_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("FishPond");
-        dsc.setPassword("FishPond");
+        dsc.setUsername("username");
+        dsc.setPassword("password");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -130,12 +130,12 @@ public class MybatisPlusGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("cn.dayutang.entity.BaseModel");
+        strategy.setSuperEntityClass("com.github.entity.BaseModel");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
         // 公共父类
-        strategy.setSuperControllerClass("cn.dayutang.controller.BaseController");
+        strategy.setSuperControllerClass("com.github.controller.BaseController");
         // 写于父类中的公共字段
         strategy.setSuperEntityColumns("id");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
